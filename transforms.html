@@ -1,0 +1,176 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href='https://fonts.googleapis.com/css?family=Fira+Sans' rel='stylesheet'>
+		<style>
+			body {
+				margin: 0;
+				font: 18px 'Fira Sans' !important;
+			}
+			
+			aside {
+				position: fixed;
+				top: 20px;
+				left: 20px;
+				padding: 1em;
+				background: #cfd8dc;
+				box-shadow: 1px 1px 4px darkgray;
+			}
+
+			select {
+				width: 100%;
+			}
+
+			input {
+				margin: 10px 0;
+				display: block;
+			}
+
+			button {
+				width: 100%;
+				background: #536dfe;
+				color: white;
+				border: 0;
+			}
+
+			select,
+			input,
+			button {
+				padding: 5px;
+				font-family: inherit;
+			}
+
+			.details {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<aside>
+			<select autocomplete="off">
+				<option selected disabled>Choose transform</option>
+				<option>Translate</option>
+				<option>Scale</option>
+				<option>Rotate</option>
+			</select>
+
+			<div class="details" hidden>
+				<input type="text" class="dx" placeholder="dx (pixels)">
+				<input type="text" class="dy" placeholder="dy (pixels)">
+			</div>
+
+			<div class="details" hidden>
+				<input type="text" class="sx" placeholder="sx (multiplier)">
+				<input type="text" class="sy" placeholder="sy (multiplier)">
+			</div>
+
+			<div class="details" hidden>
+				<input type="text" class="angle" placeholder="angle (degrees)">
+			</div>
+
+			<button id="apply" hidden>Apply!</button>
+		</aside>
+		
+		<canvas></canvas>
+		
+		<script>
+			function init() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				ctx.strokeStyle = 'gray';
+				ctx.lineWidth = 10;
+			}
+
+			function repaint() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				drawPoint(relativePoint.x, relativePoint.y);
+				drawShape();
+			}
+
+			function drawShape() {
+				ctx.beginPath();
+				ctx.strokeStyle = '#536dfe';
+				ctx.moveTo(coords[0][0], coords[0][1]);
+
+				for (var dot in coords)
+					ctx.lineTo(coords[dot][0], coords[dot][1]);
+		   
+				ctx.closePath();
+				ctx.stroke();
+			}
+
+			function drawPoint(x, y) {
+				ctx.beginPath();
+				ctx.strokeStyle = '#cfd8dc';
+				ctx.arc(x, y, 5, 0, 2 * Math.PI);
+				ctx.closePath();
+				ctx.stroke();	
+			}
+
+			function get(selector) {
+				return parseFloat(document.querySelector(selector).value);
+			}
+
+			var apply = document.querySelector('#apply'),
+				select = document.querySelector('select'),
+				canvas = document.querySelector('canvas'),
+				details = document.querySelectorAll('.details'),
+				ctx = canvas.getContext('2d'),
+				coords = [],
+				relativePoint = {},
+				dots = parseInt(prompt('Enter vertex number')),
+				shapeReady = false;
+			
+			canvas.addEventListener('click', event => {
+				if (shapeReady) {
+					relativePoint = {x: event.clientX, y: event.clientY};
+					repaint();
+				} else {
+					if (coords.length < dots) {
+						coords.push([event.clientX, event.clientY, 1]);
+						ctx.lineTo(coords[coords.length-1][0], coords[coords.length-1][1]);
+						ctx.stroke();
+					}
+
+					if (coords.length == dots) {
+						shapeReady = true;
+						drawShape();
+					}
+				}
+			});
+
+			select.addEventListener('change', function(event) {
+				for (var element in details)
+					details[element].hidden = true;
+
+				details[select.selectedIndex-1].hidden = false;
+				apply.hidden = false;
+			});
+
+			apply.addEventListener('click', event => {
+				switch (select.selectedIndex) {
+					case 1:
+						for (var point in coords)
+							coords[point] = [coords[point][0] + get('.dx'), coords[point][1] + get('.dy'), 1];
+						break;
+					case 2:
+						for (var point in coords)
+							coords[point] = [coords[point][0] * get('.sx') + relativePoint.x*(1 - get('.sx')), coords[point][1] * get('.sy') + relativePoint.y*(1 - get('.sy')), 1];
+						break;
+					case 3:
+						for (var point in coords) {
+							var t = get('.angle') * (Math.PI / 180.0);
+							coords[point] = [relativePoint.x * (1-Math.cos(t)) + coords[point][0] * Math.cos(t) - coords[point][1] * Math.sin(t) + relativePoint.y*Math.sin(t),
+											 relativePoint.y * (1-Math.cos(t)) + coords[point][1] + Math.cos(t) + coords[point][0] * Math.sin(t) - relativePoint.x*Math.sin(t), 1];
+						}
+						break;
+				}
+
+				repaint();
+			});
+
+			init();
+		</script>
+	</body>
+</html>
