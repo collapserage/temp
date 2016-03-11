@@ -162,7 +162,7 @@
 						for (var point in coords) {
 							var t = get('.angle') * (Math.PI / 180.0);
 							coords[point] = [relativePoint.x * (1-Math.cos(t)) + coords[point][0] * Math.cos(t) - coords[point][1] * Math.sin(t) + relativePoint.y*Math.sin(t),
-											 relativePoint.y * (1-Math.cos(t)) + coords[point][1] + Math.cos(t) + coords[point][0] * Math.sin(t) - relativePoint.x*Math.sin(t), 1];
+											 relativePoint.y * (1-Math.cos(t)) + coords[point][1] * Math.cos(t) + coords[point][0] * Math.sin(t) - relativePoint.x*Math.sin(t), 1];
 						}
 						break;
 				}
