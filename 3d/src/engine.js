@@ -1,8 +1,4 @@
-define(function (require) {
-  const constants = require('constants');
-  const elementCache = require('elementCache');
-  const Vertex2D = require('vertex2d');
-
+define(['es6!constants', 'es6!elementCache', 'es6!vertex2d'], function (constants, elementCache, vertex2d) {
   return new class Engine {
     rotate(M, center, theta, phi) {
       var ct = Math.cos(theta);

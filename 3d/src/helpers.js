@@ -1,4 +1,4 @@
-define(function (require) {
+define(require => {
   return new class Helpers {
     hexToRGB(hex, alpha) {
       var r = parseInt(hex.slice(1, 3), 16);

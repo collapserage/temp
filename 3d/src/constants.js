@@ -1,8 +1,6 @@
-define(function (require) {
-  const elementCache = require('elementCache');
-
+define(['es6!elementCache'], elementCache => {
   return new class Constants {
-    constructor(x, y, z) {
+    constructor() {
       let storage = JSON.parse(localStorage.getItem('constants')) || {};
 
       this.DETAIL_X = storage.DETAIL_X || 10;

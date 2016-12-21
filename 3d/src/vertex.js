@@ -1,4 +1,4 @@
-define(function (require) {
+define(require => {
   return class Vertex {
     constructor(x, y, z) {
       this.x = parseFloat(x);

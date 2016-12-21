@@ -1,11 +1,4 @@
-define(function (require) {
-  const cache = require('elementCache');
-  const constants = require('constants');
-  const helpers = require('helpers');
-  const torus = require('torus');
-  const engine = require('engine');
-  const Vertex = require('vertex');
-
+define(['elementCache', 'constants', 'helpers', 'torus', 'engine', 'vertex'], function (elementCache, constants, helpers, torus, engine, vertex) {
   return new class App {
     constructor() {
       this.canvas = cache.get('canvas');
@@ -193,6 +186,65 @@ define(function (require) {
         engine.render(this.objects, this.ctx, this.dx, this.dy);
         event.target.value = '';
       }
+    }
+
+    render() {
+      <div class="hamburger"><i class="fa fa-bars"></i></div>
+      <div class="projections"><i class="fa fa-camera"></i></div>
+
+      <nav>
+        <h1>Controls</h1>
+
+        <strong>General</strong>
+        <section>
+          <div>Torus radius (10-300): <input type="range" min="10" max="300" class="torus-radius"></div>
+          <div>Tube radius (10-300): <input type="range" min="10" max="300" class="tube-radius"></div>
+          <div>Polygons on x (10-50): <input type="range" min="10" max="50" class="polygons-x"></div>
+          <div>Polygons on y (10-50): <input type="range" min="10" max="50" class="polygons-y"></div>
+          <div>Autorotate speed: <input type="range" min="0" max="20" class="autorotate"></div>
+          <div>Color (polygon): <input type="color" value="#0096FF" class="polygon-color"></div>
+          <div>Color (edge): <input type="color" value="#000000" class="edge-color"></div>
+        </section>
+
+        <strong>Matrices</strong>
+        <section>
+          Translating:
+          <input type="text" placeholder="x" class="translate-x">
+          <input type="text" placeholder="y" class="translate-y">
+          <input type="text" placeholder="z" class="translate-z">
+        </section>
+
+        <section>
+          Scaling:
+          <input type="text" placeholder="x" class="scale-x">
+          <input type="text" placeholder="y" class="scale-y">
+          <input type="text" placeholder="z" class="scale-z">
+        </section>
+
+        <section>
+          Rotation:
+          <input type="text" placeholder="x">
+          <input type="text" placeholder="y">
+          <input type="text" placeholder="z">
+        </section>
+
+        <strong>Backface culling</strong>
+        <section>
+          Hide invisible lines: <input type="checkbox" class="backface-culling">
+        </section>
+
+        <strong>Statistics</strong>
+        <section>
+          Avg frame time: <span class="frame-time"></span> ms
+        </section>
+      </nav>
+
+      <main>
+        <canvas height="800" width="800"></canvas>
+        <section class="camera">
+          <canvas height="800" width="800"></canvas>
+        </section>
+      </main>
     }
   }
 });

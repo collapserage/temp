@@ -1,7 +1,4 @@
-define(function (require) {
-  const constants = require('constants');
-  const Vertex = require('vertex');
-
+define(['es6!constants', 'es6!vertex'], function (constants, vertex) {
   return new class Torus {
     init(center, side) {
       this.calculateGeometry(function () {
