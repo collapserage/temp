@@ -1,0 +1,119 @@
+html,
+body {
+  height: 100%;
+  font: 16px/30px 'Fira Sans', sans-serif;
+  -moz-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+nav,
+canvas {
+  box-shadow: 2px 2px 6px #bbb;
+  transition: transform 500ms;
+}
+
+canvas {
+  background: #fff;
+  border: 2px solid #bbb;
+  border-radius: 4px;
+  transition: opacity 500ms, transform 500ms;
+}
+
+canvas.faded {
+  opacity: 0;
+  transform: translateY(10rem);
+}
+
+.camera {
+  position: fixed;
+  left: calc(50% - 400px);
+  top: -50%;
+  opacity: 0;
+  transform: translateY(-10rem);
+  transition: top 500ms;
+}
+
+.camera.faded {
+  opacity: 1;
+  top: calc(50% - 250px);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 15rem;
+  background: #fff;
+  padding: 1em;
+  box-sizing: border-box;
+  transform: translateX(-15rem);
+}
+
+nav h1 {
+  text-align: center;
+  margin-top: 0
+}
+
+input {
+  width: 1.8rem;
+  border: 0;
+  border-bottom: 2px solid #ccc;
+  padding: 3px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+input[type="color"] {
+  padding: 0;
+  border: 0;
+}
+
+strong {
+  display: block;
+  margin-top: 1rem;
+}
+
+.hamburger,
+.projections {
+  position: fixed;
+  top: 2rem;
+  left: 17rem;
+  font-size: 2rem;
+  transition: transform 500ms;
+  transform: translateX(-15rem);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.projections {
+  left: 20rem;
+}
+
+.menu-shown nav,
+.menu-shown .hamburger,
+.menu-shown .projections {
+  transform: translateX(0);
+}
+
+.menu-shown canvas {
+  transform: translateX(8rem);
+}
